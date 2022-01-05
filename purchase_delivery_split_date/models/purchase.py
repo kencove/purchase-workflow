@@ -93,7 +93,8 @@ class PurchaseOrderLine(models.Model):
         res = super()._onchange_quantity()
         # preserve the date which was presumably set on the PO line if it is
         # later than the date computed from the Vendor information
-        if self.date_planned <= date_planned:
+        # Kencove specific fix, check for null date_planned and short circuit if needed
+        if date_planned and self.date_planned <= date_planned:
             self.date_planned = date_planned
         return res
 
