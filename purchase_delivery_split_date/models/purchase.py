@@ -68,7 +68,7 @@ class PurchaseOrderLine(models.Model):
             # If a picking is provided, clone it for each key for modularity
             if picking:
                 copy_vals = self._first_picking_copy_vals(key, lines)
-                picking = first_picking.copy(copy_vals)
+                picking = first_picking.sudo().copy(copy_vals)
             po_lines = self.env["purchase.order.line"]
             for line in list(lines):
                 po_lines += line
@@ -130,7 +130,7 @@ class PurchaseOrder(models.Model):
                         ):
                             if date_key not in pickings_by_date:
                                 copy_vals = line._first_picking_copy_vals(key, line)
-                                new_picking = move.picking_id.copy(copy_vals)
+                                new_picking = move.picking_id.sudo().copy(copy_vals)
                                 pickings_by_date[date_key] = new_picking
                             move._do_unreserve()
                             move.picking_id = pickings_by_date[date_key]
@@ -138,7 +138,7 @@ class PurchaseOrder(models.Model):
                             move._action_assign()
             for picking in pickings:
                 if len(picking.move_lines) == 0:
-                    picking.write({"state": "cancel"})
+                    picking.sudo().write({"state": "cancel"})
 
 
 class StockPicking(models.Model):
