@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+        <!-- Partner Category for Shipping Ports -->
+        <record id="partner_category_shipping_port" model="res.partner.category">
+            <field name="name">Shipping Port</field>
+            <field name="color">5</field>
+        </record>
+
+        <!-- US Destination Ports -->
+        <record id="port_baltimore" model="res.partner">
+            <field name="name">Port of Baltimore</field>
+            <field name="is_company">True</field>
+            <field name="street">2001 E McComas St</field>
+            <field name="city">Baltimore, MD</field>
+            <field name="zip">21230</field>
+            <field name="country_id" ref="base.us" />
+            <field name="partner_latitude">39.2667</field>
+            <field name="partner_longitude">-76.5833</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+            <field name="comment">Primary destination port for PA warehouse</field>
+        </record>
+
+        <record id="port_norfolk" model="res.partner">
+            <field name="name">Port of Norfolk (Virginia)</field>
+            <field name="is_company">True</field>
+            <field name="street">6000 Terminal Blvd</field>
+            <field name="city">Norfolk, VA</field>
+            <field name="zip">23505</field>
+            <field name="country_id" ref="base.us" />
+            <field name="partner_latitude">36.8468</field>
+            <field name="partner_longitude">-76.2852</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_savannah" model="res.partner">
+            <field name="name">Port of Savannah</field>
+            <field name="is_company">True</field>
+            <field name="street">2 Main St</field>
+            <field name="city">Garden City, GA</field>
+            <field name="zip">31408</field>
+            <field name="country_id" ref="base.us" />
+            <field name="partner_latitude">32.1283</field>
+            <field name="partner_longitude">-81.1458</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+            <field name="comment">Destination port for GA warehouse</field>
+        </record>
+
+        <record id="port_los_angeles" model="res.partner">
+            <field name="name">Port of Los Angeles</field>
+            <field name="is_company">True</field>
+            <field name="street">425 S Palos Verdes St</field>
+            <field name="city">San Pedro, CA</field>
+            <field name="zip">90731</field>
+            <field name="country_id" ref="base.us" />
+            <field name="partner_latitude">33.7395</field>
+            <field name="partner_longitude">-118.2620</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+            <field name="comment">West Coast destination for ID warehouse</field>
+        </record>
+
+        <record id="port_long_beach" model="res.partner">
+            <field name="name">Port of Long Beach</field>
+            <field name="is_company">True</field>
+            <field name="street">415 W Ocean Blvd</field>
+            <field name="city">Long Beach, CA</field>
+            <field name="zip">90802</field>
+            <field name="country_id" ref="base.us" />
+            <field name="partner_latitude">33.7545</field>
+            <field name="partner_longitude">-118.2160</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <!-- China Origin Ports -->
+        <record id="port_shanghai" model="res.partner">
+            <field name="name">Port of Shanghai</field>
+            <field name="is_company">True</field>
+            <field name="city">Shanghai</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">31.2304</field>
+            <field name="partner_longitude">121.4737</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_ningbo" model="res.partner">
+            <field name="name">Port of Ningbo-Zhoushan</field>
+            <field name="is_company">True</field>
+            <field name="city">Ningbo</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">29.8683</field>
+            <field name="partner_longitude">121.5440</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_qingdao" model="res.partner">
+            <field name="name">Port of Qingdao</field>
+            <field name="is_company">True</field>
+            <field name="city">Qingdao</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">36.0671</field>
+            <field name="partner_longitude">120.3826</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_shenzhen" model="res.partner">
+            <field name="name">Port of Shenzhen (Yantian)</field>
+            <field name="is_company">True</field>
+            <field name="city">Shenzhen</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">22.5431</field>
+            <field name="partner_longitude">114.0579</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_xiamen" model="res.partner">
+            <field name="name">Port of Xiamen</field>
+            <field name="is_company">True</field>
+            <field name="city">Xiamen</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">24.4798</field>
+            <field name="partner_longitude">118.0819</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_guangzhou" model="res.partner">
+            <field name="name">Port of Guangzhou (Nansha)</field>
+            <field name="is_company">True</field>
+            <field name="city">Guangzhou</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">22.7817</field>
+            <field name="partner_longitude">113.6095</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+
+        <record id="port_tianjin" model="res.partner">
+            <field name="name">Port of Tianjin</field>
+            <field name="is_company">True</field>
+            <field name="city">Tianjin</field>
+            <field name="country_id" ref="base.cn" />
+            <field name="partner_latitude">38.9860</field>
+            <field name="partner_longitude">117.7417</field>
+            <field
+            name="category_id"
+            eval="[(6, 0, [ref('partner_category_shipping_port')])]"
+        />
+        </record>
+</odoo>

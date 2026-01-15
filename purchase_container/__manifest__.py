@@ -16,6 +16,7 @@
         "security/ir.model.access.csv",
         "data/container.type.csv",
         "data/container_document_type.xml",
+        "data/shipping_port_data.xml",
         "data/cron_data.xml",
         "views/container_cost_line.xml",
         "views/container_document.xml",

@@ -103,14 +103,18 @@ class PurchaseContainer(models.Model):
         tracking=True,
     )
 
-    port_of_lading = fields.Char(
+    port_of_lading_id = fields.Many2one(
+        "res.partner",
         string="Port of Lading",
-        help="Origin port (e.g., Shanghai, Ningbo, Qingdao)",
+        domain="[('category_id.name', '=', 'Shipping Port')]",
+        help="Origin port (has coordinates for distance calculations)",
         tracking=True,
     )
-    port_of_discharge = fields.Char(
+    port_of_discharge_id = fields.Many2one(
+        "res.partner",
         string="Port of Discharge",
-        help="Destination port (e.g., Baltimore, Los Angeles, Savannah)",
+        domain="[('category_id.name', '=', 'Shipping Port')]",
+        help="Destination port (has coordinates for distance calculations)",
         tracking=True,
     )
     warehouse_id = fields.Many2one(

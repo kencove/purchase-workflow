@@ -122,12 +122,12 @@
                         <page name="dates" string="Dates &amp; Locations">
                             <group>
                                 <group string="Departure">
-                                    <field name="port_of_lading" />
+                                    <field name="port_of_lading_id" />
                                     <field name="date_etd" />
                                     <field name="date_atd" />
                                 </group>
                                 <group string="Port Arrival">
-                                    <field name="port_of_discharge" />
+                                    <field name="port_of_discharge_id" />
                                     <field name="date_eta" />
                                     <field name="date_ata" />
                                     <field name="date_ett" />
