@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from odoo import api, fields, models
 
@@ -103,11 +103,15 @@ class PurchaseContainer(models.Model):
         tracking=True,
     )
 
-    departure_location_id = fields.Many2one(
-        "res.partner", string="Port of Lading", help="Origin port"
+    port_of_lading = fields.Char(
+        string="Port of Lading",
+        help="Origin port (e.g., Shanghai, Ningbo, Qingdao)",
+        tracking=True,
     )
-    arrival_location_id = fields.Many2one(
-        "res.partner", string="Port of Discharge", help="Destination port"
+    port_of_discharge = fields.Char(
+        string="Port of Discharge",
+        help="Destination port (e.g., Baltimore, Los Angeles, Savannah)",
+        tracking=True,
     )
     warehouse_id = fields.Many2one(
         "stock.warehouse",
@@ -122,7 +126,10 @@ class PurchaseContainer(models.Model):
     )
     date_warehouse_eta = fields.Date(
         string="Warehouse ETA",
-        help="Estimated Time Of Arrival at final warehouse",
+        help="Estimated arrival at warehouse (auto-calculated: ATA + 2 business days)",
+        compute="_compute_date_warehouse_eta",
+        store=True,
+        readonly=False,
         tracking=True,
     )
     date_ata = fields.Date(
@@ -138,7 +145,10 @@ class PurchaseContainer(models.Model):
     )
     date_received = fields.Date(
         string="Received Date",
-        help="Date inventory was received into system",
+        help="Date inventory was received into system (auto-calculated from latest receipt)",
+        compute="_compute_date_received",
+        store=True,
+        readonly=False,
         tracking=True,
     )
     date_ett = fields.Char(
@@ -312,6 +322,36 @@ class PurchaseContainer(models.Model):
             record.date_ett = 0
             if record.date_eta and record.date_etd:
                 record.date_ett = record.date_eta - record.date_etd
+
+    @api.depends("date_ata")
+    def _compute_date_warehouse_eta(self):
+        """Calculate warehouse ETA as ATA + 2 business days."""
+        for record in self:
+            if record.date_ata:
+                # Add 2 business days (skip weekends)
+                eta = record.date_ata
+                days_added = 0
+                while days_added < 2:
+                    eta += timedelta(days=1)
+                    # Monday=0, Sunday=6
+                    if eta.weekday() < 5:  # Not Saturday (5) or Sunday (6)
+                        days_added += 1
+                record.date_warehouse_eta = eta
+            elif not record.date_warehouse_eta:
+                record.date_warehouse_eta = False
+
+    @api.depends("picking_ids", "picking_ids.state", "picking_ids.date_done")
+    def _compute_date_received(self):
+        """Calculate received date from latest completed receipt."""
+        for record in self:
+            done_pickings = record.picking_ids.filtered(
+                lambda p: p.state == "done" and p.date_done
+            )
+            if done_pickings:
+                latest = max(done_pickings.mapped("date_done"))
+                record.date_received = latest.date()
+            elif not record.date_received:
+                record.date_received = False
 
     def button_lock(self):
         """Lock the container to prevent further changes."""
