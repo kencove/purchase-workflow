@@ -90,6 +90,15 @@ class PurchaseContainer(models.Model):
         string="Related Pickings",
     )
     picking_count = fields.Integer(string="Receipts", compute="_compute_picking_count")
+    picking_done_count = fields.Integer(
+        string="Receipts Done", compute="_compute_picking_count"
+    )
+    receipts_all_done = fields.Boolean(
+        string="All Receipts Done",
+        compute="_compute_picking_count",
+        store=True,
+        help="True when all receipts for this container are fully received",
+    )
 
     incoterm_id = fields.Many2one(
         "account.incoterms", compute="_compute_incoterm_id", store=False, readonly=True
@@ -435,9 +444,18 @@ class PurchaseContainer(models.Model):
                 ],
             )
 
+    @api.depends("picking_ids", "picking_ids.state")
     def _compute_picking_count(self):
         for record in self:
-            record.picking_count = len(record.picking_ids)
+            all_pickings = record.picking_ids
+            done_pickings = all_pickings.filtered(lambda p: p.state == "done")
+            record.picking_count = len(all_pickings)
+            record.picking_done_count = len(done_pickings)
+            # All done if we have pickings AND all are done (excludes cancelled)
+            active_pickings = all_pickings.filtered(lambda p: p.state != "cancel")
+            record.receipts_all_done = bool(active_pickings) and all(
+                p.state == "done" for p in active_pickings
+            )
 
     def action_view_rfq(self):
         self.ensure_one()
