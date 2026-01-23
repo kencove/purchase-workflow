@@ -89,9 +89,11 @@ class PurchaseContainer(models.Model):
         inverse_name="container_id",
         string="Related Pickings",
     )
-    picking_count = fields.Integer(string="Receipts", compute="_compute_picking_count")
+    picking_count = fields.Integer(
+        string="Receipts", compute="_compute_picking_count", store=True
+    )
     picking_done_count = fields.Integer(
-        string="Receipts Done", compute="_compute_picking_count"
+        string="Receipts Done", compute="_compute_picking_count", store=True
     )
     receipts_all_done = fields.Boolean(
         string="All Receipts Done",
