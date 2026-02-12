@@ -8,6 +8,7 @@
                     <field
                         name="state"
                         widget="statusbar"
+                        clickable="1"
                         statusbar_visible="in_progress,pos_confirmed,on_water,arrival_notice,released,delivered,received,processed"
                     />
                 </header>
